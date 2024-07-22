@@ -68,11 +68,13 @@ class _RegisterState extends State<Register> {
               ),
             ),
             const SizedBox(height: 20),
-            Obx(
-              () => ElevatedButton(
+            Obx( ()=> Visibility(
+                visible: true,
+                child:ElevatedButton(
                 onPressed:
                   authController.isButtonEnabled.value ? _submit : null,
                   child: const Text('인증문자 받기'),
+                ),
               ),
             ),
             Visibility(

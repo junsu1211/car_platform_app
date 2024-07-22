@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../screens/feed/FeedEdit.dart';
+import 'package:car_platform_app/src/screens/feed/Feedadd.dart';
 
 const double _imageSize = 110;
 
@@ -22,12 +23,12 @@ class FeedListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
                     ClipRRect(borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMDlfMjM2%2FMDAxNzAyMTA5MDU0MDEy.47lj6fYEYK9sOk1_zja3P5OpqoLRYRxhZbZoWsWDxo0g.zkPJUTBop4ugFckMdJJZu-lJxJDIHNh7qZT9FMIxRA0g.JPEG.mmx041%2F52126057797_442d8064d8_b.jpg&type=sc960_832",
+                    child: Image.file(
+                    item['image'],
                     width: _imageSize,
                     height: _imageSize,
                     fit: BoxFit.cover,
-                  ),
+                    ),
                   ),
               
                   Expanded(
@@ -46,7 +47,7 @@ class FeedListItem extends StatelessWidget {
                               Text('동네이름',
                               style: TextStyle(color: Colors.grey),
                               ),
-                              Text(' .N 분전',
+                              Text(item['category'].toString(),
                               style: TextStyle(color: Colors.grey),
                               ),
                               ],

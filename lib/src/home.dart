@@ -1,5 +1,8 @@
 import 'package:car_platform_app/src/screens/feed/index.dart';
 import 'package:flutter/material.dart';
+import 'package:car_platform_app/src/screens/my/mypage.dart';
+import 'package:car_platform_app/src/screens/map/Androidshow.dart';
+
 
 final List<BottomNavigationBarItem> myTabs  = [
   BottomNavigationBarItem(
@@ -22,9 +25,9 @@ final List<BottomNavigationBarItem> myTabs  = [
 
 final List<Widget> myTabItems = [
   FeedIndex(),
-  Center(child: Text('동네')),
+  Androidshow(),
   Center(child: Text('채팅')),
-  Center(child: Text('마이')),
+  MyPage(),
 ];
 
 class Home extends StatefulWidget {
