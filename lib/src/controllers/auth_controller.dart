@@ -1,8 +1,68 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:car_platform_app/src/providers/AuthProvider.dart';
 
 class AuthController extends GetxController{
   final RxBool isButtonEnabled = false.obs;
+  final authProvider = Get.put(AuthProvider());
+  final RxBool showVerifyForm = false.obs;
+  final RxString buttonText = "인증문자 받기".obs;
+  String? phoneNumber;
+  Timer? countdownTimer;
+ 
+Future<bool> register(String password, String name, int? profile)
+async {
+Map body = await authProvider.register(phoneNumber!, password,
+name, profile);
+if (body['result'] == 'ok') {
+return true;
+}
+Get.snackbar('회원가입 에러', body['message'],
+snackPosition: SnackPosition.BOTTOM);
+return false;
+}
+
+  Future<void> requestVerificationCode(String phone) async {
+    Map body = await authProvider.requestPhoneCode(phone);
+    if (body['result'] == 'ok') {
+      phoneNumber = phone; // 인증 받은 휴대폰 번호를 저장
+      DateTime expiryTime = DateTime.parse(body['expired']);
+      _startCountdown(expiryTime);
+    }
+  }
+  // 사용자가 입력한 코드를 검증하는 함수
+  
+  Future<bool> verifyPhoneNumber(String userInputCode) async {
+    Map body = await
+      authProvider.verifyPhoneNumber(userInputCode);
+    if (body['result'] == 'ok') {
+      return true;
+    }
+    Get.snackbar('인증번호 에러', body['message'],
+      snackPosition: SnackPosition.BOTTOM);
+      return false;
+  }
+
+  void _startCountdown(DateTime expiryTime) {
+    isButtonEnabled.value = false; // 버튼 비활성화
+    showVerifyForm.value = true; // 인증 폼 활성화
+    countdownTimer?.cancel(); // 기존 타이머가 있다면 취소
+    countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      Duration timeDiff = expiryTime.difference(DateTime.now());
+      if (timeDiff.isNegative) {
+        buttonText.value = "인증문자 다시 받기";
+        isButtonEnabled.value = true;
+        timer.cancel(); // 타이머 종료
+      } else {
+    // 남은 시간을 mm:ss 포맷으로 업데이트
+        String minutes = timeDiff.inMinutes.toString().padLeft(2, '0');
+        String seconds = (timeDiff.inSeconds % 60).toString().padLeft(2, '0');
+        buttonText.value = "인증문자 다시 받기 $minutes:$seconds";
+        }
+    });
+  }
 
   void updateButtonState(TextEditingController phoneController) {
     String text = phoneController.text.replaceAll('-', '');
@@ -37,12 +97,12 @@ class AuthController extends GetxController{
   }
 
   login(String phone, String password) async {
-    /*Map body = await authProvider.login(phone, password);
+    Map body = await authProvider.login(phone, password);
     if(body['result'] == 'ok') {
       return true;
     }
     Get.snackbar('로그인 에러', body['message'],
-      snackPosition: SnackPosition.BOTTOM);*/
+      snackPosition: SnackPosition.BOTTOM);
     return false;
   }
 }

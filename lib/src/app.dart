@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routes: {
-        '/': (context) => Home(),
+        '/': (context) => Intro(),
         '/register': (context) => Register(),
         'intro' : (context) => Intro(),
       },
