@@ -9,7 +9,7 @@ class AuthProvider extends Provider {
 
    Future<Map> register(String phone, String password, String name,
     [int? profile]) async {
-    final response = await post('/api/register', {
+    final response = await post('/auth/register', {
     'phone': phone,
     'password': password,
     'name': name,
@@ -19,12 +19,12 @@ class AuthProvider extends Provider {
   }
 
   Future<Map> verifyPhoneNumber(String code) async {
-    final response = await put('/api/phone', {'code': code});
+    final response = await put('/auth/phone', {'code': code});
     return response.body;
   }
   
   Future<Map> login(String phone, String password) async {
-    final response = await post('/api/login', {
+    final response = await post('/auth/login', {
     'phone': phone,
     'password': password,
     });
