@@ -1,8 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:car_platform_app/src/providers/AuthProvider.dart';
+import 'package:car_platform_app/src/shared/global.dart';
+import 'dart:developer';
 
 class AuthController extends GetxController{
   final RxBool isButtonEnabled = false.obs;
@@ -12,17 +13,18 @@ class AuthController extends GetxController{
   String? phoneNumber;
   Timer? countdownTimer;
  
-Future<bool> register(String password, String name, int? profile)
-async {
-Map body = await authProvider.register(phoneNumber!, password,
-name, profile);
-if (body['result'] == 'ok') {
-return true;
-}
-Get.snackbar('회원가입 에러', body['message'],
-snackPosition: SnackPosition.BOTTOM);
-return false;
-}
+  Future<bool> register(String password, String name, int? profile) async {
+    Map body = await authProvider.register(phoneNumber!, password, name, profile);
+      if (body['result'] == 'ok') {
+        String token = body['access_token'];
+        log("token : $token");
+        Global.accessToken = token;
+        return true;
+      }
+      Get.snackbar('회원가입 에러', body['message'],
+      snackPosition: SnackPosition.BOTTOM);
+      return false;
+  }
 
   Future<void> requestVerificationCode(String phone) async {
     Map body = await authProvider.requestPhoneCode(phone);
@@ -97,17 +99,18 @@ return false;
     }
 
 
-  login(String phone, String password) async {
+  Future<bool> login(String phone, String password) async {
     Map body = await authProvider.login(phone, password);
     if(body['result'] == 'ok') {
+      String token = body['access_token'];
+      log("token : $token");
+      Global.accessToken = token;
       return true;
     }
     Get.snackbar('로그인 에러', body['message'],
-      snackPosition: SnackPosition.BOTTOM);
+    snackPosition: SnackPosition.BOTTOM);
     return false;
   }
-
-
 
 
 }

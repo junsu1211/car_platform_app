@@ -78,7 +78,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
             Visibility(
-              visible: false,
+              visible: true,
               child: Column(
               mainAxisSize: MainAxisSize.min,
                 children: [
@@ -91,7 +91,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                   SizedBox(height: 20),
-                  ElevatedButton(onPressed: null, child: Text('인증번호 확인')),
+                  ElevatedButton(onPressed: _confirm , child: Text('인증번호 확인')),
                 ],
               ),
             ),

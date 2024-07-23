@@ -6,7 +6,8 @@ import 'screens/intro.dart';
 import 'screens/register.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLogin;
+  const MyApp(this.isLogin, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +58,11 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => Home(),
+        '/intro' : (context) => Intro(),
         '/register': (context) => Register(),
-        'intro' : (context) => Intro(),
+        
       },
-      initialRoute: '/',
+      initialRoute: isLogin ? '/' : '/intro',
     );
   }
 }
