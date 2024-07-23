@@ -8,46 +8,42 @@ import 'package:get/get.dart';
 import 'package:car_platform_app/src/controllers/Feed_Controller.dart';
 import 'dart:math';
 
-class Feedadd extends StatefulWidget {
-  const Feedadd({Key? key}) : super(key: key);
+class FeedCreate extends StatefulWidget {
+  const FeedCreate({Key? key}) : super(key: key);
 
   @override
-  State<Feedadd> createState() => _FeedaddState();
+  State<FeedCreate> createState() => _FeedCreateState();
 }
 
-class _FeedaddState extends State<Feedadd> {
+class _FeedCreateState extends State<FeedCreate> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
-  final FeedController _feedController = Get.find();
+  final feedController = Get.put(FeedController());
 
   String _selectedCategory = 'CPU';
 
   File? _image;
+  String? image;
+
   final picker = ImagePicker();
 
-  void _submitForm() {
-    String title = _titleController.text;
-    String description = _descriptionController.text;
-    double price = double.tryParse(_priceController.text) ?? 0.0;
-    String category = _selectedCategory;
-
-    // Print or use the submitted data as needed
-    print('Title: $title');
-    print('Description: $description');
-    print('Price: $price');
-    print('Category: $category');
-
-    // Add further logic for submitting data and uploading image
-    // Here you can handle the image upload to your internal storage
-    if (_image != null ) {
+  _submit() async{
+     if (_image != null ) {
       // Upload image logic goes here
       print('Uploading image: ${_image!.path}');
     } else {
       print('No image selected');
     }
-
-    _feedController.addData(title, description, price, category, _image);
+    final result = await feedController.feedCreate(
+      _titleController.text,
+      _priceController.text,
+      _descriptionController.text,
+      image,
+      _selectedCategory);
+      if(result){
+        Get.back();
+      }
   }
 
   Future<void> _getImage() async {
@@ -55,6 +51,7 @@ class _FeedaddState extends State<Feedadd> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        image = pickedFile.path;
       } else {
         print('No image selected');
       }
@@ -122,7 +119,7 @@ class _FeedaddState extends State<Feedadd> {
             ),
             const SizedBox(height: 24.0),
             ElevatedButton(
-              onPressed: _submitForm,
+              onPressed: _submit,
               child: const Text('부품 등록'),
             ),
             const SizedBox(height: 12.0),
