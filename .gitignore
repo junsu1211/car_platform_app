@@ -1,43 +1,71 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter generated files
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
+.packages
+build/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.framework
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android generated files
+.android/
+flutter_launcher_icons/
+
+# IntelliJ and Android Studio files
+.idea/
+*.iml
+
+# Visual Studio Code files
+.vscode/
+
+# Mac OS generated files
+.DS_Store
+
+# Miscellaneous
+*.log
+*.lock
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Byte-compiled / optimized / DLL files
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.o
+*.so
+
+# Python virtual environment
+.venv/
+env/
+ENV/
+
+# IDE files
+*.ipr
+*.iws
+*.dmg
+*.class
+
+# Compiled files
+*.out
+*.log
+
+# Firebase
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Pub specific
 .pub/
-/build/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
