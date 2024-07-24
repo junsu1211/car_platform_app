@@ -14,6 +14,7 @@ class AuthController extends GetxController{
   Timer? countdownTimer;
  
   Future<bool> register(String password, String name, int? profile) async {
+    
     Map body = await authProvider.register(phoneNumber!, password, name, profile);
       if (body['result'] == 'ok') {
         String token = body['access_token'];
@@ -27,9 +28,10 @@ class AuthController extends GetxController{
   }
 
   Future<void> requestVerificationCode(String phone) async {
+    phoneNumber = phone;
     Map body = await authProvider.requestPhoneCode(phone);
     if (body['result'] == 'ok') {
-      phoneNumber = phone; // 인증 받은 휴대폰 번호를 저장
+      // 인증 받은 휴대폰 번호를 저장
       DateTime expiryTime = DateTime.parse(body['expired']);
       _startCountdown(expiryTime);
     }
