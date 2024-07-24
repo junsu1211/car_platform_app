@@ -25,15 +25,11 @@ final List<BottomNavigationBarItem> myTabs  = [
   ),
 ];
 
-final List<Widget> myTabItems = [
-  FeedIndex(),
-  Androidshow(),
-  Center(child: Text('채팅')),
-  MyPage(),
-];
-
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final String? city;
+  final String? state;
+
+  const Home({super.key, this.city, this.state});
 
   @override
   State<Home> createState() => _HomeState();
@@ -45,7 +41,11 @@ class _HomeState extends State<Home> {
   var _bConnection = false;
   var _name = 'Database';
 
-  void initState(){
+  String _currentCity = '내 동네';
+  String _currentState = '';
+
+  @override
+  void initState() {
     super.initState();
     MysqlDb.initializeDB().then((value) => {
       _database = value,
@@ -54,10 +54,15 @@ class _HomeState extends State<Home> {
       print('Connection Success!!'),
       setState(() {})
     });
+
+    if (widget.city != null && widget.state != null) {
+      _currentCity = widget.city!;
+      _currentState = widget.state!;
+    }
   }
 
-  void _onItemTapped(int index){
-    setState((){
+  void _onItemTapped(int index) {
+    setState(() {
       _selectedIndex = index;
     });
   }
@@ -71,11 +76,21 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: true,
         items: myTabs,
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped, 
+        onTap: _onItemTapped,
       ),
       body: IndexedStack(
         index: _selectedIndex,
-        children: myTabItems,
+        children: [
+          FeedIndex(city: _currentCity, state: _currentState), // 시, 도 정보를 전달
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(child: Androidshow()),
+            ],
+          ),
+          Center(child: Text('채팅')),
+          MyPage(),
+        ],
       ),
     );
   }

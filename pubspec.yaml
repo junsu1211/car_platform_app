@@ -40,6 +40,10 @@ dependencies:
   geolocator_web: ^4.0.0
   image_picker: ^1.1.2
   mysql_client: ^0.0.27
+  google_maps_flutter_platform_interface: ^2.8.0
+  geocoding: ^3.0.0
+  google_maps_webservice: ^0.0.20-nullsafety.5
+
 
 dev_dependencies:
   flutter_test:

@@ -15,7 +15,7 @@ class MysqlDb extends MyDatabase {
     // 데이터베이스를 엽니다.
 
     var conn = await MySQLConnection.createConnection(
-        host: '127.0.0.1',
+        host: '10.0.2.2',
         port: 3306,
         userName: 'madang',
         password: 'madang',

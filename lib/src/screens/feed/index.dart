@@ -9,57 +9,57 @@ import 'package:flutter/material.dart';
 import 'package:car_platform_app/src/screens/feed/Feedadd.dart';
 
 class FeedIndex extends StatefulWidget {
-  const FeedIndex({super.key});
+  final String? city;
+  final String? state;
+
+  const FeedIndex({super.key, this.city, this.state});
 
   @override
-  State <FeedIndex> createState() =>  _FeedIndexState();
+  State<FeedIndex> createState() => _FeedIndexState();
 }
 
-class  _FeedIndexState extends State<FeedIndex> {
-final feedController = Get.put(FeedController());
+class _FeedIndexState extends State<FeedIndex> {
+  final feedController = Get.put(FeedController());
 
-  
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () { Get.to(() => const Feedadd()); },
+        onPressed: () {
+          Get.to(() => const Feedadd());
+        },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
         centerTitle: false,
-        title: const Text('내 동네'),
+        title: Text('${widget.state} ${widget.city}'),
         actions: [
           IconButton(
-            onPressed: () {}, //검색 버튼 처리
+            onPressed: () {}, // 검색 버튼 처리
             icon: const Icon(Icons.search),
           ),
-          IconButton(onPressed: () {}, // 알림 버튼 처리
-           icon: const Icon(Icons.notifications_none_rounded),
-           ),
+          IconButton(
+            onPressed: () {}, // 알림 버튼 처리
+            icon: const Icon(Icons.notifications_none_rounded),
+          ),
         ],
       ),
-
       body: Column(
         children: [
-        SizedBox(height: 40),
-        Expanded(
-        child: Obx(
-         () => ListView.builder(
-          itemCount: feedController.feedList.length,
-          itemBuilder: (context, index) {
-            final item = feedController.feedList[index];
-            return FeedListItem(item);
-          },
-         ),
-          
-          ),)
+          SizedBox(height: 40),
+          Expanded(
+            child: Obx(
+                  () => ListView.builder(
+                itemCount: feedController.feedList.length,
+                itemBuilder: (context, index) {
+                  final item = feedController.feedList[index];
+                  return FeedListItem(item);
+                },
+              ),
+            ),
+          )
         ],
       ),
-
-
-
-  );
-
+    );
   }
 }

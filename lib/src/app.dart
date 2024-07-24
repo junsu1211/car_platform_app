@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'home.dart';
 import 'screens/intro.dart';
 import 'screens/register.dart';
+import 'screens/map/Androidshow.dart'; // Androidshow 화면을 import
 
 class MyApp extends StatelessWidget {
   final bool isLogin;
@@ -28,13 +29,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-      textTheme: const TextTheme(
-        labelLarge: TextStyle(
-          fontSize: 16,
-          fontFamily: 'Noto Sans',
-          fontWeight: FontWeight.bold,
+        textTheme: const TextTheme(
+          labelLarge: TextStyle(
+            fontSize: 16,
+            fontFamily: 'Noto Sans',
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
 
         elevatedButtonTheme: ElevatedButtonThemeData( // 버튼 테마
           style: ElevatedButton.styleFrom(
@@ -60,9 +61,21 @@ class MyApp extends StatelessWidget {
         '/': (context) => Home(),
         '/intro' : (context) => Intro(),
         '/register': (context) => Register(),
-        
+        '/map': (context) => Androidshow(), // Androidshow 화면 추가
       },
-      initialRoute: isLogin ? '/' : '/intro',
+      initialRoute: isLogin ? '/' : '/',
+      onGenerateRoute: (settings) {
+        if (settings.name == '/home') {
+          final args = settings.arguments as Map<String, String>;
+          return MaterialPageRoute(
+            builder: (context) {
+              return Home(city: args['city'], state: args['state']);
+            },
+          );
+        }
+        assert(false, 'Need to implement ${settings.name}');
+        return null;
+      },
     );
   }
 }
