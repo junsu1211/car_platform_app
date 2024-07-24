@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:car_platform_app/src/widgets/forms/label_textfield.dart';
 import 'package:car_platform_app/src/widgets/listitems/feed_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,33 +18,26 @@ class FeedCreate extends StatefulWidget {
 
 class _FeedCreateState extends State<FeedCreate> {
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final feedController = Get.put(FeedController());
-
   String _selectedCategory = 'CPU';
-
   File? _image;
-  int? image;
+  int? imageId;
 
   final picker = ImagePicker();
 
-  _submit() async {
-    if (_image != null) {
-      // Upload image logic goes here
-      print('Uploading image: ${_image!.path}');
-    } else {
-      print('No image selected');
-    }
+  _submit() async{
+    
     final result = await feedController.feedCreate(
-        _titleController.text,
-        _priceController.text,
-        _descriptionController.text,
-        image,
-        _selectedCategory);
-    if (result) {
-      Get.back();
-    }
+      _titleController.text,
+      _priceController.text,
+      _contentController.text,
+      imageId//imageId
+      );
+      if(result){
+        Get.back();
+      }
   }
 
   Future<void> _getImage() async {
@@ -51,7 +45,6 @@ class _FeedCreateState extends State<FeedCreate> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        image = null;
       } else {
         print('No image selected');
       }
@@ -61,78 +54,51 @@ class _FeedCreateState extends State<FeedCreate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('피드 등록'),
-      ),
+      appBar: AppBar(title: const Text('부품 팔기')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: '제목'),
-            ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _descriptionController,
-              decoration: InputDecoration(labelText: '설명'),
-              maxLines: 3,
-            ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _priceController,
-              decoration: InputDecoration(labelText: '가격'),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 12.0),
-            DropdownButtonFormField<String>(
-              value: _selectedCategory,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedCategory = newValue!;
-                });
-              },
-              items: <String>[
-                'CPU',
-                'GPU',
-                'RAM',
-                'Mainboard',
-                'Storage',
-                'Power',
-                'Case',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: '카테고리',
-                border: OutlineInputBorder(),
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+
+
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey, width: 1),
+                        ),
+                        child: const Icon(Icons.camera_alt_outlined,
+                        color: Colors.grey,),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  //제목
+                  LabelTextfield(label: '제목', hintText: '제목', controller: _titleController),
+                  LabelTextfield(label: '가격', hintText: '가격을 입력해주세요', controller: _priceController),
+                  LabelTextfield(label: '자세한 설명', hintText: '자세한 설명을 입력하세요', controller: _contentController),
+
+                ],
               ),
             ),
-            const SizedBox(height: 24.0),
-            ElevatedButton(
-              onPressed: _getImage,
-              child: const Text('사진 추가'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: ElevatedButton(
+                onPressed: _submit,
+                child: const Text('작성 완료'),
+              ),
             ),
-            const SizedBox(height: 24.0),
-            ElevatedButton(
-              onPressed: _submit,
-              child: const Text('부품 등록'),
-            ),
-            const SizedBox(height: 12.0),
-            _image != null
-                ? Image.file(
-                    _image!,
-                    fit: BoxFit.contain,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                  )
-                : const Text('사진을 선택하세요'),
           ],
         ),
       ),
-    );
+      );
+    
+       
   }
 }
+

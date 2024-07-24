@@ -36,7 +36,7 @@ Future<void> _onRefresh() async {
   Widget build(BuildContext context) { 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () { Get.to(() => const FeedCreate()); },
+        onPressed: () { Get.to(() => FeedCreate()); },
         child: Icon(Icons.add),
       ),
       appBar: AppBar(

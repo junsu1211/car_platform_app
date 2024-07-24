@@ -14,7 +14,7 @@ class AuthController extends GetxController {
   Timer? countdownTimer;
 
   Future<bool> register(String password, String name, int? profile) async {
-<<<<<<< HEAD
+    
     Map body =
         await authProvider.register(phoneNumber!, password, name, profile);
     if (body['result'] == 'ok') {
@@ -26,19 +26,7 @@ class AuthController extends GetxController {
     Get.snackbar('회원가입 에러', body['message'],
         snackPosition: SnackPosition.BOTTOM);
     return false;
-=======
-    
-    Map body = await authProvider.register(phoneNumber!, password, name, profile);
-      if (body['result'] == 'ok') {
-        String token = body['access_token'];
-        log("token : $token");
-        Global.accessToken = token;
-        return true;
-      }
-      Get.snackbar('회원가입 에러', body['message'],
-      snackPosition: SnackPosition.BOTTOM);
-      return false;
->>>>>>> d15a2d2354f78c40aa4816d441876438b1e929bf
+
   }
 
   Future<void> requestVerificationCode(String phone) async {
@@ -113,6 +101,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> login(String phone, String password) async {
+    phone = phone;
     Map body = await authProvider.login(phone, password);
     if (body['result'] == 'ok') {
       String token = body['access_token'];

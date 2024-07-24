@@ -8,27 +8,24 @@ import 'package:car_platform_app/src/models/FeedModel.dart';
 import 'package:car_platform_app/src/screens/feed/FeedCreate.dart';
 import 'dart:io';
 
-class FeedController extends GetxController {
+class FeedController extends GetxController{
   //RxList<Map> feedList = <Map>[].obs;
   final feedProvider = Get.put(FeedProvider());
   final RxList<FeedModel> feedList = <FeedModel>[].obs;
   final Rx<FeedModel?> currentFeed = Rx<FeedModel?>(null);
 
-  feedUpdate(int id, String title, String priceString, String content,
-      int? imageId, String category) async {
+  feedUpdate(int id, String title, String priceString, String content, int? image) async {
     int price = int.tryParse(priceString) ?? 0;
 
-    Map body = await feedProvider.update(
-        id, title, priceString, content, imageId, category);
-    if (body['result'] == 'ok') {
+    Map body = await feedProvider.update(id, title, priceString, content, image);
+    if(body['result'] == 'ok') {
       int index = feedList.indexWhere((feed) => feed.id == id);
-      if (index != -1) {
+      if(index != -1) {
         FeedModel updateFeed = feedList[index].copyWith(
-          title: title,
+          title : title,
           price: price,
           content: content,
-          imageId: imageId,
-          category: category,
+          imageId : image,
         );
         feedList[index] = updateFeed;
       }
@@ -38,24 +35,49 @@ class FeedController extends GetxController {
     return false;
   }
 
+
+
   Future<void> feedIndex({int page = 1}) async {
     Map json = await feedProvider.index(page);
-    List<FeedModel> tmp =
-        json['data'].map<FeedModel>((m) => FeedModel.parse(m)).toList();
+    List<FeedModel> tmp = 
+      json['data'].map<FeedModel>((m) => FeedModel.parse(m)).toList();
     (page == 1) ? feedList.assignAll(tmp) : feedList.addAll(tmp);
   }
 
-  Future<bool> feedCreate(String title, String price, String content,
-      int? image, String category) async {
-    Map body = await feedProvider.store(title, price, content, image, category);
+  Future<bool> feedCreate(
+      String title, String price, String content, int? image) async{
+        
+        Map body = await feedProvider.store(title, price, content, image);
 
-    if (body['result'] == 'ok') {
-      await feedIndex();
-      return true;
-    }
-    Get.snackbar('생성 에러', body['message'], snackPosition: SnackPosition.BOTTOM);
-    return false;
+        if(body['result'] == 'ok') {
+          await feedIndex();
+          return true;
+        }
+        Get.snackbar('생성 에러', body['message'], snackPosition: 
+        SnackPosition.BOTTOM);
+        return false;
+    } 
+    
+Future<void> feedShow(int id) async{
+  Map body = await feedProvider.show(id);
+  if(body['result'] == 'ok'){
+    currentFeed.value = FeedModel.parse(body['data']);
+  }else {
+    Get.snackbar('피드 에러', body['message'],
+    snackPosition: SnackPosition.BOTTOM);
+    currentFeed.value = null;
   }
+}
+
+Future<bool> feedDelete(int id) async {
+  Map body = await feedProvider.destroy(id);
+  if (body['result'] == 'ok'){
+    feedList.removeWhere((feed) => feed.id == id);
+    return true;
+  }
+  Get.snackbar('삭제 에러',body['message'], snackPosition: SnackPosition.BOTTOM);
+  return false;
+}
 
   /*
   @override
@@ -91,24 +113,4 @@ class FeedController extends GetxController {
     if( index != -1) { feedList[index] = newData; }
   }*/
 
-   Future<void> feedShow(int id) async{
-    Map body= await feedProvider.show(id);
-    if(body['result'] == 'ok') {
-      currentFeed.value= FeedModel.parse(body['data']);
-    } else{
-      Get.snackbar('피드에러', body['message'],
-      snackPosition: SnackPosition.BOTTOM);
-      currentFeed.value= null;
-    }
-  }
- 
-Future<bool> feedDelete(int id) async{
- Map body= await feedProvider.destroy(id);
- if(body['result'] == 'ok') {
-  feedList.removeWhere((feed) => feed.id== id);
-  return true;
-  }
-  Get.snackbar('삭제에러', body['message'], snackPosition: SnackPosition.BOTTOM);
-  return false;
-  }
 }

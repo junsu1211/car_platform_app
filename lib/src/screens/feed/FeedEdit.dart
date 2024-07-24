@@ -15,45 +15,40 @@ class FeedEdit extends StatefulWidget {
 }
 
 class _FeedEditState extends State<FeedEdit> {
-  final feedController = Get.put(FeedController());
+  final feedController = Get.put(FeedController() );
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
   String _selectedCategory = 'CPU';
-  File? image;
   int? imageId;
-
   final picker = ImagePicker();
+  File? _image;
+
+
+  _submit() async{
+    final result = await feedController.feedUpdate(
+        widget.model.id,
+        _titleController.text,
+        _priceController.text,
+        _contentController.text,
+        imageId,
+    );
+    if(result) { Get.back(); }
+  }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     _titleController.text = widget.model.title;
     _priceController.text = widget.model.price.toString();
-    _descriptionController.text = widget.model.content;
-    _selectedCategory = widget.model.category;
-    imageId = widget.model.imageId;
-  }
-
-  _submit() async {
-    final result = await feedController.feedUpdate(
-      widget.model.id,
-      _titleController.text,
-      _priceController.text,
-      _descriptionController.text,
-      imageId,
-      _selectedCategory,
-    );
-    if (result) {
-      Get.back();
-    }
+    _contentController.text = widget.model.content;
   }
 
   Future<void> _getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
-        image = File(pickedFile.path);
+        _image = File(pickedFile.path);
       } else {
         print('No image selected');
       }
@@ -63,35 +58,36 @@ class _FeedEditState extends State<FeedEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('물품 수정')),
-      body: Padding(
+        appBar: AppBar(title: Text('물품 수정')),
+        body: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(children: <Widget>[
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+          child: Column(
+            children: <Widget> [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _priceController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _priceController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                 ),
+                keyboardType: TextInputType.number,
               ),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 12.0),
-            TextField(
-              controller: _descriptionController,
+              const SizedBox(height: 12.0),
+              TextField(
+              controller: _contentController,
               decoration: InputDecoration(labelText: '설명'),
               maxLines: 3,
             ),
-            const SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
             DropdownButtonFormField<String>(
               value: _selectedCategory,
               onChanged: (String? newValue) {
@@ -123,14 +119,13 @@ class _FeedEditState extends State<FeedEdit> {
               onPressed: _getImage,
               child: const Text('사진 추가'),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(() => const FeedCreate());
-              },
+              const SizedBox(height: 20),
+              ElevatedButton(onPressed: () { Get.to(() => const FeedCreate()); },
               child: const Text('수정하기'),
-            ),
-          ])),
+              ),
+            ]
+          )
+        ),
     );
   }
 }

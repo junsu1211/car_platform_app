@@ -23,8 +23,7 @@ class UserListItem extends StatelessWidget {
     ),
   );
  }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> d15a2d2354f78c40aa4816d441876438b1e929bf
+
+

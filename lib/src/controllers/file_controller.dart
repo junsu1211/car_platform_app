@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:car_platform_app/src/providers/FileProvider.dart';
 import '../shared/global.dart';
-import 'package:car_platform_app/src/providers/fileProvider.dart';
+import 'package:car_platform_app/src/providers/FileProvider.dart';
 
 class FileController extends GetxController {
   final ImagePicker picker = ImagePicker();
