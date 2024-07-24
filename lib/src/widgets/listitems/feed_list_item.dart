@@ -4,31 +4,33 @@ import 'package:get/get.dart';
 
 import '../../screens/feed/FeedEdit.dart';
 import 'package:car_platform_app/src/screens/feed/FeedCreate.dart';
+import 'package:car_platform_app/src/screens/feed/show.dart';
+
 
 const double _imageSize = 110;
 
 class FeedListItem extends StatelessWidget {
-  final FeedModel model;
-  const FeedListItem(this.model, {super.key});
+  final FeedModel item;
+  const FeedListItem(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => FeedEdit(model));
+        Get.to(() => FeedShow(item.id));
       },
         child: Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
-                    ClipRRect(borderRadius: BorderRadius.circular(10.0),
+                    ClipRRect(borderRadius: BorderRadius.circular(10.0),/*
                     child: Image.file(
                     model.image,
                     width: _imageSize,
                     height: _imageSize,
                     fit: BoxFit.cover,
-                    ),
+                    ),*/
                   ),
               
                   Expanded(
@@ -38,7 +40,7 @@ class FeedListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            model.title,
+                            item.title,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 16),                   
                             ),
@@ -47,12 +49,12 @@ class FeedListItem extends StatelessWidget {
                               Text('카테고리',
                               style: TextStyle(color: Colors.grey),
                               ),
-                              Text(model.category,
+                              Text(item.category,
                               style: TextStyle(color: Colors.grey),
                               ),
                               ],
                           ),
-                          Text(model.price.toString(),
+                          Text(item.price.toString(),
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],

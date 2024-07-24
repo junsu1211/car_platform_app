@@ -24,26 +24,26 @@ class _FeedCreateState extends State<FeedCreate> {
   String _selectedCategory = 'CPU';
 
   File? _image;
-  String? image;
+  int? image;
 
   final picker = ImagePicker();
 
-  _submit() async{
-     if (_image != null ) {
+  _submit() async {
+    if (_image != null) {
       // Upload image logic goes here
       print('Uploading image: ${_image!.path}');
     } else {
       print('No image selected');
     }
     final result = await feedController.feedCreate(
-      _titleController.text,
-      _priceController.text,
-      _descriptionController.text,
-      image,
-      _selectedCategory);
-      if(result){
-        Get.back();
-      }
+        _titleController.text,
+        _priceController.text,
+        _descriptionController.text,
+        image,
+        _selectedCategory);
+    if (result) {
+      Get.back();
+    }
   }
 
   Future<void> _getImage() async {
@@ -51,7 +51,7 @@ class _FeedCreateState extends State<FeedCreate> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        image = pickedFile.path;
+        image = null;
       } else {
         print('No image selected');
       }
@@ -124,7 +124,11 @@ class _FeedCreateState extends State<FeedCreate> {
             ),
             const SizedBox(height: 12.0),
             _image != null
-                ? Image.file(_image!, fit: BoxFit.contain, height: MediaQuery.of(context).size.height* 0.2,) 
+                ? Image.file(
+                    _image!,
+                    fit: BoxFit.contain,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  )
                 : const Text('사진을 선택하세요'),
           ],
         ),
@@ -132,4 +136,3 @@ class _FeedCreateState extends State<FeedCreate> {
     );
   }
 }
-

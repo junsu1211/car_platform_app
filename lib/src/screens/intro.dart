@@ -3,7 +3,6 @@ import 'package:car_platform_app/src/shared/data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:car_platform_app/src/screens/login.dart';
-
 import 'feed/show.dart';
 
 class Intro extends StatefulWidget {
@@ -26,7 +25,8 @@ class _IntroState extends State<Intro> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   //로고
-                  Image.asset('assets/images/logo.png', width: 300, height: 300),
+                  Image.asset('assets/images/logo.png',
+                      width: 300, height: 300),
                   //슬로건
                   const SizedBox(height: 20),
                   const Text(
@@ -46,31 +46,33 @@ class _IntroState extends State<Intro> {
           Column(
             children: [
               //회원가입
-              Padding(padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  ElevatedButton(onPressed: () {
-                    Get.to( () => const Register());
-                  },
-                  child: const Text('시작하기'),
-                  ),
-                  //로그인
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('이미 계정이 있나요?'),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => const Login());
-                        },
-                        child: const Text('로그인'),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              ),    //로그인
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.to(() => const Register());
+                      },
+                      child: const Text('시작하기'),
+                    ),
+                    //로그인
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('이미 계정이 있나요?'),
+                        TextButton(
+                          onPressed: () {
+                            Get.to(() => const Login());
+                          },
+                          child: const Text('로그인'),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ), //로그인
             ],
           ),
         ],

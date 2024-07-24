@@ -15,34 +15,38 @@ class FeedEdit extends StatefulWidget {
 }
 
 class _FeedEditState extends State<FeedEdit> {
-  final feedController = Get.put(FeedController() );
+  final feedController = Get.put(FeedController());
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   String _selectedCategory = 'CPU';
   File? image;
+  int? imageId;
+
   final picker = ImagePicker();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _titleController.text = widget.model.title;
     _priceController.text = widget.model.price.toString();
     _descriptionController.text = widget.model.content;
     _selectedCategory = widget.model.category;
-    image = widget.model.image;
+    imageId = widget.model.imageId;
   }
 
-  _submit() async{
+  _submit() async {
     final result = await feedController.feedUpdate(
-        widget.model.id,
-        _titleController.text,
-        _priceController.text,
-        _descriptionController.text,
-        image,
-        _selectedCategory,
+      widget.model.id,
+      _titleController.text,
+      _priceController.text,
+      _descriptionController.text,
+      imageId,
+      _selectedCategory,
     );
-    if(result) { Get.back(); }
+    if (result) {
+      Get.back();
+    }
   }
 
   Future<void> _getImage() async {
@@ -59,36 +63,35 @@ class _FeedEditState extends State<FeedEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('물품 수정')),
-        body: Padding(
+      appBar: AppBar(title: Text('물품 수정')),
+      body: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget> [
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
+          child: Column(children: <Widget>[
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _priceController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _priceController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
-                keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 12.0),
-              TextField(
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 12.0),
+            TextField(
               controller: _descriptionController,
               decoration: InputDecoration(labelText: '설명'),
               maxLines: 3,
             ),
-              const SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
             DropdownButtonFormField<String>(
               value: _selectedCategory,
               onChanged: (String? newValue) {
@@ -120,13 +123,14 @@ class _FeedEditState extends State<FeedEdit> {
               onPressed: _getImage,
               child: const Text('사진 추가'),
             ),
-              const SizedBox(height: 20),
-              ElevatedButton(onPressed: () { Get.to(() => const FeedCreate()); },
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(() => const FeedCreate());
+              },
               child: const Text('수정하기'),
-              ),
-            ]
-          )
-        ),
+            ),
+          ])),
     );
   }
 }

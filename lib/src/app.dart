@@ -13,10 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
-
-        inputDecorationTheme: const InputDecorationTheme( // input 테마
+        inputDecorationTheme: const InputDecorationTheme(
+          // input 테마
           hintStyle: TextStyle(fontSize: 16, color: Colors.grey),
           floatingLabelStyle: TextStyle(fontSize: 10),
           contentPadding: EdgeInsets.all(10),
@@ -27,16 +26,15 @@ class MyApp extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black),
           ),
         ),
-
-      textTheme: const TextTheme(
-        labelLarge: TextStyle(
-          fontSize: 16,
-          fontFamily: 'Noto Sans',
-          fontWeight: FontWeight.bold,
+        textTheme: const TextTheme(
+          labelLarge: TextStyle(
+            fontSize: 16,
+            fontFamily: 'Noto Sans',
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData( // 버튼 테마
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          // 버튼 테마
           style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromARGB(255, 22, 70, 141),
             padding: const EdgeInsets.symmetric(vertical: 22),
@@ -48,8 +46,8 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-
-        textButtonTheme: TextButtonThemeData( //텍스트 버튼 테마
+        textButtonTheme: TextButtonThemeData(
+          //텍스트 버튼 테마
           style: TextButton.styleFrom(
             foregroundColor: Color.fromARGB(255, 22, 70, 141),
             textStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -58,9 +56,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => Home(),
-        '/intro' : (context) => Intro(),
+        '/intro': (context) => Intro(),
         '/register': (context) => Register(),
-        
       },
       initialRoute: isLogin ? '/' : '/intro',
     );
