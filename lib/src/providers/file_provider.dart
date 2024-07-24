@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'provider.dart';
-
 class FileProvider extends Provider {
   imageUpload(String name, String path) async {
     final form = FormData(

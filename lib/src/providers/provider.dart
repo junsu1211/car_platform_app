@@ -6,7 +6,7 @@ class Provider extends GetConnect {
     @override
     void onInit() {
       allowAutoSignedCert = true;
-      httpClient.baseUrl = 'http://localhost:3000';
+      httpClient.baseUrl = 'http://10.0.2.2:3000';
       httpClient.addRequestModifier<void>((request) {
         request.headers['Accept'] = 'application/json';
         if(request.url.toString().contains('/api/')){
@@ -16,5 +16,4 @@ class Provider extends GetConnect {
       });
       super.onInit();
   }
-
 }

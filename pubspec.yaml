@@ -43,6 +43,7 @@ dependencies:
   google_maps_flutter_platform_interface: ^2.8.0
   geocoding: ^3.0.0
   google_maps_webservice: ^0.0.20-nullsafety.5
+  get_storage: ^2.1.1
 
 
 dev_dependencies:

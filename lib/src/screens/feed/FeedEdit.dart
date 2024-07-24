@@ -1,10 +1,13 @@
 import 'package:car_platform_app/src/controllers/Feed_Controller.dart';
+import 'package:car_platform_app/src/controllers/file_controller.dart';
 import 'package:car_platform_app/src/screens/feed/FeedCreate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'package:car_platform_app/src/models/FeedModel.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../widgets/buttons/feed_image.dart';
 
 class FeedEdit extends StatefulWidget {
   final FeedModel model;
@@ -15,7 +18,8 @@ class FeedEdit extends StatefulWidget {
 }
 
 class _FeedEditState extends State<FeedEdit> {
-  final feedController = Get.put(FeedController() );
+  final feedController = Get.put(FeedController());
+  final fileController = Get.put(FileController());
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
@@ -31,7 +35,7 @@ class _FeedEditState extends State<FeedEdit> {
         _titleController.text,
         _priceController.text,
         _contentController.text,
-        imageId,
+        fileController.imageId.value
     );
     if(result) { Get.back(); }
   }
@@ -42,6 +46,7 @@ class _FeedEditState extends State<FeedEdit> {
     _titleController.text = widget.model.title;
     _priceController.text = widget.model.price.toString();
     _contentController.text = widget.model.content;
+    fileController.imageId.value = widget.model.imageId;
   }
 
   Future<void> _getImage() async {
@@ -115,6 +120,14 @@ class _FeedEditState extends State<FeedEdit> {
               ),
             ),
             const SizedBox(height: 24.0),
+
+            // 이미지 업로드
+            InkWell(
+                onTap: fileController.upload,
+                child: Obx(
+                      () => FeedImage(fileController.imageUrl),
+                )
+            ),
             ElevatedButton(
               onPressed: _getImage,
               child: const Text('사진 추가'),

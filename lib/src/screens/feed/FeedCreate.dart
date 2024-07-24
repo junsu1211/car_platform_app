@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:car_platform_app/src/controllers/file_controller.dart';
+import 'package:car_platform_app/src/widgets/buttons/feed_image.dart';
 import 'package:car_platform_app/src/widgets/forms/label_textfield.dart';
 import 'package:car_platform_app/src/widgets/listitems/feed_list_item.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class _FeedCreateState extends State<FeedCreate> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final feedController = Get.put(FeedController());
+  final fileController = Get.put(FileController());
   String _selectedCategory = 'CPU';
   File? _image;
   int? imageId;
@@ -33,7 +36,7 @@ class _FeedCreateState extends State<FeedCreate> {
       _titleController.text,
       _priceController.text,
       _contentController.text,
-      imageId//imageId
+      fileController.imageId.value//imageId
       );
       if(result){
         Get.back();
@@ -62,8 +65,6 @@ class _FeedCreateState extends State<FeedCreate> {
             Expanded(
               child: ListView(
                 children: [
-
-
                   Row(
                     children: [
                       Container(
@@ -78,6 +79,15 @@ class _FeedCreateState extends State<FeedCreate> {
                     ],
                   ),
                   const SizedBox(height: 16),
+
+                  // 이미지 업로드
+                  InkWell(
+                    onTap: fileController.upload,
+                    child: Obx(
+                          () => FeedImage(fileController.imageUrl),
+                    ),
+                  ),
+
                   //제목
                   LabelTextfield(label: '제목', hintText: '제목', controller: _titleController),
                   LabelTextfield(label: '가격', hintText: '가격을 입력해주세요', controller: _priceController),
@@ -97,8 +107,6 @@ class _FeedCreateState extends State<FeedCreate> {
         ),
       ),
       );
-    
-       
   }
 }
 
