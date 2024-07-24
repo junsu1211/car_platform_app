@@ -1,5 +1,10 @@
 import 'package:car_platform_app/src/screens/feed/index.dart';
 import 'package:flutter/material.dart';
+import 'package:car_platform_app/src/screens/my/mypage.dart';
+import 'package:car_platform_app/src/screens/map/Androidshow.dart';
+import 'package:car_platform_app/src/database/my_database.dart';
+import 'package:mysql_client/mysql_client.dart';
+import 'package:car_platform_app/src/database/mysql_db.dart';
 
 final List<BottomNavigationBarItem> myTabs  = [
   BottomNavigationBarItem(
@@ -22,9 +27,9 @@ final List<BottomNavigationBarItem> myTabs  = [
 
 final List<Widget> myTabItems = [
   FeedIndex(),
-  Center(child: Text('동네')),
+  Androidshow(),
   Center(child: Text('채팅')),
-  Center(child: Text('마이')),
+  MyPage(),
 ];
 
 class Home extends StatefulWidget {
@@ -36,6 +41,20 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  late MyDatabase _database;
+  var _bConnection = false;
+  var _name = 'Database';
+
+  void initState(){
+    super.initState();
+    MysqlDb.initializeDB().then((value) => {
+      _database = value,
+      _name = _database.getName(),
+      _bConnection = true,
+      print('Connection Success!!'),
+      setState(() {})
+    });
+  }
 
   void _onItemTapped(int index){
     setState((){

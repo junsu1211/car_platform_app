@@ -1,33 +1,34 @@
+import 'package:car_platform_app/src/models/FeedModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../screens/feed/FeedEdit.dart';
+import 'package:car_platform_app/src/screens/feed/FeedCreate.dart';
 
 const double _imageSize = 110;
 
 class FeedListItem extends StatelessWidget {
-  final Map item;
-  const FeedListItem(this.item, {super.key});
+  final FeedModel model;
+  const FeedListItem(this.model, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(() => FeedEdit(item: item));
+        Get.to(() => FeedEdit(model));
       },
-
-            child: Stack(
+        child: Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
                     ClipRRect(borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMDlfMjM2%2FMDAxNzAyMTA5MDU0MDEy.47lj6fYEYK9sOk1_zja3P5OpqoLRYRxhZbZoWsWDxo0g.zkPJUTBop4ugFckMdJJZu-lJxJDIHNh7qZT9FMIxRA0g.JPEG.mmx041%2F52126057797_442d8064d8_b.jpg&type=sc960_832",
+                    child: Image.file(
+                    model.image,
                     width: _imageSize,
                     height: _imageSize,
                     fit: BoxFit.cover,
-                  ),
+                    ),
                   ),
               
                   Expanded(
@@ -37,21 +38,21 @@ class FeedListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item['title'],
+                            model.title,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 16),                   
                             ),
                           Row(
                             children: [
-                              Text('동네이름',
+                              Text('카테고리',
                               style: TextStyle(color: Colors.grey),
                               ),
-                              Text(' .N 분전',
+                              Text(model.category,
                               style: TextStyle(color: Colors.grey),
                               ),
                               ],
                           ),
-                          Text(item['price'].toString(),
+                          Text(model.price.toString(),
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
