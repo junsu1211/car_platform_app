@@ -66,4 +66,5 @@ class MysqlDb extends MyDatabase {
   Future<void> close() async {
     await _conn.close();
   }
+  
 }
