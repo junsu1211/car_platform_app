@@ -38,7 +38,7 @@ class _LoginState extends State <Login> {
       _passwordController.text,
     );
     if (result){
-      Get.offAll(() => const Home());
+      Get.offAll(() => const Home("경기도", "시흥시"));
     }
   }
 
@@ -62,7 +62,6 @@ class _LoginState extends State <Login> {
           ],
         ),
       ),
-
     );
   }
 }

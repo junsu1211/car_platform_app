@@ -59,21 +59,21 @@ class MyApp extends StatelessWidget {
         '/': (context) => Intro(),
         '/intro': (context) => Intro(),
         '/register': (context) => Register(),
-        '/map': (context) => Androidshow(), // Androidshow 화면 추가
+        //'/map': (context) => Androidshow(), // Androidshow 화면 추가
       },
       initialRoute: isLogin ? '/' : '/',
-      onGenerateRoute: (settings) {
-        if (settings.name == '/home') {
-          final args = settings.arguments as Map<String, String>;
-          return MaterialPageRoute(
-            builder: (context) {
-              return Home(city: args['city'], state: args['state']);
-            },
-          );
-        }
-        assert(false, 'Need to implement ${settings.name}');
-        return null;
-      },
+      // onGenerateRoute: (settings) {
+      //   if (settings.name == '/home') {
+      //     final args = settings.arguments as Map<String, String>;
+      //     return MaterialPageRoute(
+      //       builder: (context) {
+      //         //return Home(city: args['city'], state: args['state']);
+      //       },
+      //     );
+      //   }
+      //   assert(false, 'Need to implement ${settings.name}');
+      //   return null;
+      // },
     );
   }
 }

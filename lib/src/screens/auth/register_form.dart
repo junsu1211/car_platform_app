@@ -22,7 +22,7 @@ class _RegisterFormState extends State<RegisterForm> {
       null,
     );
     if (result) {
-      Get.off(() => const Home());
+      Get.off(() => const Home("경기도", "시흥시"));
     }
   }
 

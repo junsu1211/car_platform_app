@@ -1,10 +1,15 @@
+//import 'package:car_platform_app/src/controllers/User_Controller.dart';
 import 'package:car_platform_app/src/screens/feed/index.dart';
+import 'package:car_platform_app/src/screens/nowPrice/ComponentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_platform_app/src/screens/my/mypage.dart';
 import 'package:car_platform_app/src/screens/map/Androidshow.dart';
 import 'package:car_platform_app/src/database/my_database.dart';
 import 'package:mysql_client/mysql_client.dart';
 import 'package:car_platform_app/src/database/mysql_db.dart';
+import 'package:car_platform_app/src/controllers/User_Controller.dart';
+import 'package:get/get.dart';
+import 'package:flutter/widgets.dart';
 
 final List<BottomNavigationBarItem> myTabs  = [
   BottomNavigationBarItem(
@@ -17,7 +22,7 @@ final List<BottomNavigationBarItem> myTabs  = [
   ),
   BottomNavigationBarItem(
     icon: Icon(Icons.chat_bubble_outline_rounded),
-    label: '채팅',
+    label: '최근 시세',
   ),
   BottomNavigationBarItem(
     icon: Icon(Icons.person_outline),
@@ -25,28 +30,38 @@ final List<BottomNavigationBarItem> myTabs  = [
   ),
 ];
 
-class Home extends StatefulWidget {
-  final String? city;
-  final String? state;
+// final List<Widget> myTabItems = [
+//   FeedIndex(widget.city, widget.country),
+//   Androidshow(),
+//   ComponentsScreen(),
+//   MyPage(),
+// ];
 
-  const Home({super.key, this.city, this.state});
+class Home extends StatefulWidget {
+
+  final String? country;
+  final String? city;
+
+  //const Home({super.key});
+  const Home(this.country, this.city,{super.key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final userController = Get.put(UserController()); // 여기 건드림
   int _selectedIndex = 0;
   late MyDatabase _database;
   var _bConnection = false;
   var _name = 'Database';
 
-  String _currentCity = '내 동네';
-  String _currentState = '';
+  String _currentCity = 'Unknown city';
+  String _currentState = 'Unknown state';
 
-  @override
-  void initState() {
+  void initState(){
     super.initState();
+    userController.myInfo(); // 여기 더추가
     MysqlDb.initializeDB().then((value) => {
       _database = value,
       _name = _database.getName(),
@@ -55,20 +70,27 @@ class _HomeState extends State<Home> {
       setState(() {})
     });
 
-    if (widget.city != null && widget.state != null) {
-      _currentCity = widget.city!;
-      _currentState = widget.state!;
-    }
+    // if (widget.city != null && widget.state != null) {
+    //   _currentCity = widget.city!;
+    //   _currentState = widget.state!;
+    // }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
+  void _onItemTapped(int index){
+    setState((){
       _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> myTabItems = [
+      FeedIndex(widget.city, widget.country),
+      Androidshow(),
+      ComponentsScreen(),
+      MyPage(),
+    ];
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.black,
@@ -80,17 +102,7 @@ class _HomeState extends State<Home> {
       ),
       body: IndexedStack(
         index: _selectedIndex,
-        children: [
-          FeedIndex(city: _currentCity, state: _currentState), // 시, 도 정보를 전달
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(child: Androidshow()),
-            ],
-          ),
-          Center(child: Text('채팅')),
-          MyPage(),
-        ],
+        children: myTabItems,
       ),
     );
   }

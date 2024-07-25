@@ -31,7 +31,6 @@ class _FeedCreateState extends State<FeedCreate> {
   final picker = ImagePicker();
 
   _submit() async{
-    
     final result = await feedController.feedCreate(
       _titleController.text,
       _priceController.text,

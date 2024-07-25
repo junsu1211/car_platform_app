@@ -12,7 +12,7 @@ class FeedIndex extends StatefulWidget {
   final String? city;
   final String? state;
 
-  const FeedIndex({super.key, this.city, this.state});
+  const FeedIndex(this.city, this.state, {super.key});
 
   @override
   State<FeedIndex> createState() => _FeedIndexState();

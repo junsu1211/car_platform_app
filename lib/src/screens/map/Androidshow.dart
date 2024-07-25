@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/geocoding.dart';
+
+import '../../home.dart';
+import '../feed/index.dart';
 
 class Androidshow extends StatefulWidget {
   const Androidshow({Key? key}) : super(key: key);
@@ -160,12 +164,10 @@ class _AndroidshowState extends State<Androidshow> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          // 현재 위치를 업데이트하고 출력합니다.
+        onPressed: () async{
           await _updateCurrentLocation();
-          // 도, 시 정보만 가지고 home.dart 화면으로 넘어갑니다.
-          _navigateToHome(context);
-        },
+          Get.to(() => Home(_currentCity, _currentState));
+          },
         label: const Text('위치 설정 완료'),
         icon: const Icon(Icons.map),
         heroTag: 'location_button', // 고유한 heroTag 지정

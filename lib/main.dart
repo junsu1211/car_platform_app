@@ -5,6 +5,9 @@ import 'package:car_platform_app/src/shared/global.dart';
 
 void main() async{
 
+  //GetStorage 초기화
+  await GetStorage.init();
+
   //인증 동작
   String token = Global.accessToken;
   bool isLogin = token.isNotEmpty;
