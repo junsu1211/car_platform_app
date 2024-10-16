@@ -23,7 +23,7 @@ class _AndroidshowState extends State<Androidshow> {
   String _currentState = '';
 
   // Google Maps Geocoding API 키
-  final geocoding = GoogleMapsGeocoding(apiKey: 'AIzaSyBTddJg919IVwdiIyS6q2qy6LkLn0E9sNo');
+  final geocoding = GoogleMapsGeocoding(apiKey: '');
 
   @override
   void initState() {
